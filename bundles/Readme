@@ -1,0 +1,1 @@
+Whenever there is a change in the policy.rego file, recreate a tar bundle called "bundle.tar.gz" inside this directory
