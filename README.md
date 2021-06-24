@@ -1,5 +1,8 @@
 # opa-envoy-grpc-test
 
+### Sample code based below discussion:
+
+https://github.com/open-policy-agent/opa/issues/3568
 
 ## Installation
 
