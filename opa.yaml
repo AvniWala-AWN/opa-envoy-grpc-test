@@ -1,0 +1,20 @@
+services:
+   - name: nginx
+     url: http://bundle_server
+bundles:
+    nginx:
+      service: nginx
+      resource: bundles/bundle.tar.gz
+      persist: false
+      polling:
+        min_delay_seconds: 10
+        max_delay_seconds: 20
+decision_logs:
+   console: true
+plugins:
+     envoy.ext_authz.grpc:
+       addr: :9191
+       query: data.envoy.authz.allow
+caching:
+     inter_query_builtin_cache:
+       max_size_bytes: 64000000

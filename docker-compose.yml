@@ -1,0 +1,65 @@
+version: '3'
+services:
+  envoy:
+    image: envoyproxy/envoy-alpine:v1.14.4
+    networks:
+      - envoymesh
+    command: /usr/local/bin/envoy -c /etc/envoy/front-envoy.yaml --service-cluster front-proxy -l info  --local-address-ip-version v4
+    expose:
+      - "80"
+      - "8001"
+    ports:
+      - "18080:80"
+      - "8001:8001"
+    volumes:
+      - ./front-envoy.yaml:/etc/envoy/front-envoy.yaml
+  opa:
+    image: openpolicyagent/opa:0.28.0-envoy
+    networks:
+      envoymesh:
+        aliases:
+          - opa
+    command:
+    - "run"
+    - "--server"
+    - "--log-level=info"
+    - "--set=decision_logs.console=true"
+    - "--config-file=/etc/config/opa.yaml"
+    expose:
+      - "9191"
+      - "8181"
+    ports:
+      - "9191:9191"
+      - "8181:8181"
+    depends_on:
+    - bundle_server
+    volumes:
+      - ./opa.yaml:/etc/config/opa.yaml
+  httpbin:
+    image: kennethreitz/httpbin:latest
+    networks:
+      envoymesh:
+        aliases:
+          - httpbin
+    expose:
+      - 80
+    ports:
+    - "28080:80"
+  bundle_server:
+    image: nginx:1.20.0-alpine
+    networks:
+      envoymesh:
+        aliases:
+          - bundle_server
+    expose:
+      - 80
+    ports:
+    - "18888:80"
+    volumes:
+    - ./bundles:/usr/share/nginx/html/bundles
+
+volumes:
+  certs:
+
+networks:
+  envoymesh: {}
