@@ -1,3 +1,5 @@
+##Partial coopy from: https://www.openpolicyagent.org/docs/latest/http-api-authorization/
+
 services:
    - name: nginx
      url: http://bundle_server
