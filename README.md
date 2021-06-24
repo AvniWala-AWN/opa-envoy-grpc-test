@@ -1,5 +1,16 @@
 # opa-envoy-grpc-test
 
+## Code Layout 
+
+.
+├── bundles
+│   └── bundle.tar.gz >>>> contains policy.rego that will be downloaded and used by OPA
+├── docker-compose.yml
+├── front-envoy.yaml
+└── opa.yaml
+
+1 directory, 4 files
+
 ## Installation
 
 To Run: <br>
